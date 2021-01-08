@@ -9,8 +9,8 @@ const commentCtrl = require('../controllers/comment');
 
 
 // Toutes les routes concernants les comments sont sécurisées via auth et les images sont gérées grâce à multer
-router.post('/', commentCtrl.createComment);
-router.get('/', commentCtrl.getAllComment);
+router.post('/', auth, commentCtrl.createComment);
+router.get('/', auth, commentCtrl.getAllComment);
 router.get('/:id', auth, commentCtrl.getOneComment);
 router.put('/:id', auth, commentCtrl.modifyComment);
 router.delete('/:id', auth, commentCtrl.deleteComment);  
