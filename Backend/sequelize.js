@@ -7,7 +7,7 @@ const sequelize = new Sequelize('groupomania', 'Admin', 'MutterY2554', {
 
 require("./models/comment.js")(sequelize, DataTypes);
 require("./models/user.js")(sequelize, DataTypes);
-//require("./models/gif.js")(sequelize, DataTypes);
+require("./models/gif.js")(sequelize, DataTypes);
 
 //sequelize.sync({force: true});
 

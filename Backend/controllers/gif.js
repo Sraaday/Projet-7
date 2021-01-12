@@ -2,9 +2,9 @@ const Gif = require('../models/gif');
 const fs = require('fs');
 
 exports.createGif = (req, res, next) => {
-    
+    console.log(`${req.protocol}://${req.get('host')}/images/${req.file.filename}`)
     Gif.create({
-
+        title: "",
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         likes : 0,
         dislikes : 0,
