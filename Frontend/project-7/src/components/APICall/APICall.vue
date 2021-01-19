@@ -4,18 +4,19 @@ const API = "http://localhost:3000/api/"
 
 export default {
     name: 'APICall',
-    props: {
-        msg: String
-    },
-    data: () => {
-        return {
-            jwt : ""
-        }
-    },
     methods: {
 
         setToken: function (token) {
-            this.jwt = token;
+            sessionStorage.setItem('jwt', token);
+        },
+
+        removeToken: function () {
+            sessionStorage.removeItem('jwt');
+        },
+
+
+        isSetToken: function () {
+            return sessionStorage.getItem('jwt') != null;
         },
 
         getUrl: function (route) {
@@ -23,16 +24,17 @@ export default {
         },
 
         getHeader: function () {
-            return {"Authorization" : `Bearer ${this.jwt}`};
+            if (sessionStorage.getItem('jwt')) {
+                return {"Content-Type" : "application/json", "Authorization" : `Bearer ${sessionStorage.getItem('jwt')}`};
+            }
+            return {"Content-Type" : "application/json"};
         },
 
         post: async function(route, request) {
             let options = {
                 method: "POST",
                 body: JSON.stringify(request),
-                headers: {
-                    "Content-Type" : "application/json", "Authorization" : `Bearer ${this.jwt}`
-                }
+                headers: this.getHeader()
             };
             let url = `${API}${route}`;
 
@@ -44,9 +46,7 @@ export default {
             let options = {
                 method: "PUT",
                 body: JSON.stringify(request),
-                headers: {
-                    "Content-Type" : "application/json", "Authorization" : `Bearer ${this.jwt}`
-                }
+                headers: this.getHeader()
             };
             let url = `${API}${route}`;
 
@@ -57,9 +57,7 @@ export default {
         get: async function(route) {
             let options = {
                 method: "GET",
-                headers: {
-                    "Authorization" : `Bearer ${this.jwt}`
-                }
+                headers: this.getHeader()
             }
             let url = `${API}${route}`;
             
@@ -70,9 +68,7 @@ export default {
         delete: async function(route) {
             let options = {
                 method: "DELETE",
-                headers: {
-                    "Authorization" : `Bearer ${this.jwt}`
-                }
+                headers: this.getHeader()
             }
             let url = `${API}${route}`;
 

@@ -32,15 +32,24 @@ export default {
             error: ""
         }
     },
+    props: {
+        href: String
+    },
     methods: {
         sendForm: async function() {
             if (this.isValid()) {
                 const response = await APICall.methods.post("user/signup", {"email": this.email, "password": this.password, "lastname": this.lastName, "firstname": this.firstName});
                 this.error = response.error;
+                if (response.message === "Utilisateur créé"){
+                    this.onInscriptionSuccess();
+                }
             }
         },
         isValid: function() {
             return /[A-Za-z-\s]/.test(this.firstName) && /[A-Za-z-\s]/.test(this.lastName);
+        },
+        onInscriptionSuccess: function() {
+            this.$router.push({ name: this.href });
         }
     }
 }

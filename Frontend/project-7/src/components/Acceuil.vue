@@ -1,22 +1,43 @@
 <template>
     <div>
-        <img id="logo" />
+        <img id="groupomania" src="../assets/Groupomania.png" />
         <h1>Bienvenue sur Groupomania !</h1>
         <h2>Connectez-vous pour accéder au site</h2>
-        <h3>Nouveau ? Inscrivez-vous en cliquant sur l'onglet "Inscription" en haut à gauche !</h3>
+        <Connexion href="MainPage"/>
+        <h3>Nouveau ? Inscrivez-vous en cliquant <router-link to="/register">ici</router-link></h3>
         <router-link />
     </div>
 </template>
 <script>
-import Inscription from './Connexion/Inscription.vue';
 import Connexion from './Connexion/Connexion.vue';
 export default {
     components: {
-        Inscription,
         Connexion
     }
 }
 </script>
 <style scoped>
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+
 
 </style>
