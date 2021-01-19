@@ -1,12 +1,16 @@
 const { raw } = require('body-parser');
 const { Comment } = require("../sequelize").models;
+const jwt = require('jsonwebtoken');
 
 
 exports.createComment = (req, res, next) => {
-
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
     
     Comment.create({
-        content: req.body.content
+        content: req.body.content,
+        userId: userId
 
     })
     .then(() => res.status(201).json({ message: 'Commentaire enregistré !'}))
