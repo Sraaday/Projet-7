@@ -9,6 +9,6 @@ require("./models/comment.js")(sequelize, DataTypes);
 require("./models/user.js")(sequelize, DataTypes);
 require("./models/gif.js")(sequelize, DataTypes);
 
-//sequelize.sync({force: true});
+//sequelize.sync({alter: true});
 
 module.exports = sequelize;

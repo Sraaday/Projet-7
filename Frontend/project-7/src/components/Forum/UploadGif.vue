@@ -1,29 +1,39 @@
 <template>
-  <file-upload :url='url' :thumb-url='thumbUrl' :headers="headers" @change="onFileChange"></file-upload>
+    <div class="outline">
+        <form enctype="multipart/form-data">
+            Titre: <input type="text" v-model="title"><br/>
+            Uploadez une image : <input type="file" ref="fileToUpload"><br/>
+            <button type="button" v-on:click="sendForm">Poster</button>
+        </form>
+    </div>
 </template>
 
 <script>
-import APICall from '../APICall/APICall.vue'
-import Vue from 'vue'
-import FileUpload from 'v-file-upload'
-Vue.use(FileUpload)
+import APICall from '../APICall/APICall.vue';
 
 export default {
-  data () {
-    return {
-      url: APICall.methods.getUrl("gif"),
-      headers: APICall.methods.getHeader(),
-      filesUploaded: []
-    }
-  },
-  methods: {
-    thumbUrl (file) {
-      return file.myThumbUrlProperty
+    data () {
+        return {
+            title:''
+        }
     },
-    onFileChange (file) {
-      // Handle files like:
-      this.fileUploaded = file
+    methods: {
+        sendForm: async function () {
+        const data = new FormData();
+        data.append("title", this.title);
+        if(this.$refs.fileToUpload.files.length) {
+            data.append("file", this.$refs.fileToUpload.files[0]);
+        }
+
+        const result = await APICall.methods.postFile('gif', data);
+        if (!result.error){
+            this.title = "";
+        }
+        }
     }
-  }
 }
 </script>
+
+<style scoped>
+
+</style>

@@ -9,8 +9,8 @@ const gifCtrl = require('../controllers/gif');
 
 
 // Toutes les routes concernants les gifs sont sécurisées via auth et les images sont gérées grâce à multer
-router.post('/', multer, gifCtrl.createGif);
-router.get('/', gifCtrl.getAllGif);
+router.post('/',auth, multer, gifCtrl.createGif);
+router.get('/',auth, gifCtrl.getAllGif);
 router.get('/:id', auth, gifCtrl.getOneGif);
 //router.put('/:id', auth, multer, gifCtrl.modifyGif);
 router.delete('/:id', auth, gifCtrl.deleteGif);  

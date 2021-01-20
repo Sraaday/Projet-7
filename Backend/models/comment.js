@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				foreignKey: true
 
+			},
+			gifId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				foreignKey: true
 			}
 			
 		},

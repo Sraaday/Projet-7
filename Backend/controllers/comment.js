@@ -10,7 +10,8 @@ exports.createComment = (req, res, next) => {
     
     Comment.create({
         content: req.body.content,
-        userId: userId
+        userId: userId,
+        gifId: req.body.gifId
 
     })
     .then(() => res.status(201).json({ message: 'Commentaire enregistré !'}))
@@ -18,13 +19,13 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.getAllComment = (req, res, next) => {
-    Comment.findAll()
+    Comment.findAll({where: { gifId : req.params.gifId}})
     .then(comments => res.status(200).json(comments))
     .catch(error => res.status(400).json({ error }));
 };
 
 exports.getOneComment = (req, res, next) => {
-    Comment.findOne({ _id: req.params.id })
+    Comment.findOne({where: { id: req.params.id }})
     .then(comment => res.status(200).json(comment))
     .catch(error => res.status(404).json({ error }));
 };
@@ -34,16 +35,16 @@ exports.modifyComment = (req, res, next) => {
     {
         ...JSON.parse(req.body.comment),
     } : { ...req.body };
-    Comment.updateOne({ _id: req.params.id }, { ...commentObject, _id: req.params.id })
+    Comment.updateOne({ id: req.params.id }, { ...commentObject, id: req.params.id })
     .then(() => res.status(200).json({ message: 'Commentaire modifiée !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
 exports.deleteComment = (req, res, next) => {
-    Comment.findOne({ _id: req.params.id })
+    Comment.findOne({ id: req.params.id })
     .then(c => {
         
-        Comment.deleteOne({ _id: req.params.id })
+        Comment.deleteOne({ id: req.params.id })
         .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
         .catch(error => res.status(400).json({ error }));
    

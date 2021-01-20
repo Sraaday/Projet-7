@@ -24,13 +24,13 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 required: true,
             },
-            like: {
+            likes: {
                 type: DataTypes.INTEGER,
-                allowNull: true
+                allowNull: false
             },
-            dislike: {
+            dislikes: {
                 type: DataTypes.INTEGER,
-                allowNull: true
+                allowNull: false
             },
             usersLiked: {
               type: DataTypes.JSON,

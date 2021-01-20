@@ -42,6 +42,18 @@ export default {
             return await response.json();
         },
 
+        postFile: async function(route, formData) {
+            let options = {
+                method: "POST",
+                body: formData,
+                headers: {"Authorization" : `Bearer ${sessionStorage.getItem('jwt')}`}
+            };
+            let url = `${API}${route}`;
+
+            const response = await fetch(url,options);
+            return await response.json();
+        },
+
         put: async function(route, request) {
             let options = {
                 method: "PUT",

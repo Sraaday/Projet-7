@@ -41,7 +41,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true
-            }
+			},
+			isAdmin : {
+				type: DataTypes.BOOLEAN,
+				allowNull : false
+			}
 
 			
 		},
