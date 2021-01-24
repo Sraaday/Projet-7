@@ -1,48 +1,72 @@
-const Gif = require('../models/gif');
+const { Gif } = require("../sequelize").models;
+const jwt = require('jsonwebtoken');
+
+
 
 // Fonction général du like/dislike
-exports.like = (req,res, next) => {
-    Gif.findOne({ id: req.params.id })
+exports.like = async (req,res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+    console.log("Je cherche le gif");
+    Gif.findOne({where:{ id: req.params.id }})
     .then(gif => {
         switch (req.body.like) {
         case -1 :
-            addDislike(req.params.id, req.body.userId, res, gif);
+            console.log("Je dislike le gif");
+            addDislike(req.params.id, userId, res, gif);
             break;
         case 0 :
-            removeLikeDislike(req.params.id, req.body.userId, res, gif);
+            console.log("Je remove les like du gif");
+            removeLikeDislike(req.params.id, userId, res, gif);
             break;
         case 1 :
-            addLike(req.params.id, req.body.userId, res, gif);
+            console.log("Je like le gif");
+            addLike(req.params.id, userId, res, gif);
             break;
         default :
             return res.status(400).json({ error });
         }
      })
-    
 }
 
-function addLike (id, userId, res, gif) {
-    if (gif.usersLiked.find(user => user === userId)==null) {
+function hasUserId (userId, userList) {
+    for (const userInd in userList) {
+        if (userId === userList[userInd]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function addUserIdInList (userId, userList) {
+    const res = [userId];
+    for (const userInd in userList) {
+        res.push(userList[userInd]);
+    }
+    return res;
+}
+
+async function addLike (id, userId, res, gif) {
+    if (!hasUserId(userId,gif.usersLiked)) {
         removeDislike(id, userId, res, gif);
-        Gif.updateOne({ _id: id }, {
-            $inc: {likes:1}, 
-            $push: {usersLiked: userId}, 
-            id: id
-        })
+        Gif.update( {
+            likes: gif.likes + 1,
+            usersLiked: addUserIdInList(userId, gif.usersLiked)
+        }, {where: { id: id }})
             .then(() => res.status(201).json({ message: 'Like ajouté !'}))
             .catch( error => res.status(400).json({ error }))
     }
 }
 
 function addDislike (id, userId, res, gif) {
-    if (gif.usersDisliked.find(user => user === userId)==null) {
+    if (!hasUserId(userId,gif.usersDisliked)) {
         removeLike(id, userId, res, gif);
-        Gif.updateOne({ id: id }, {
-            $inc: {dislikes:1},
-            $push: {usersDisliked: userId},
-            id: id
-        })
-            .then(() => res.status(201).json({ message: 'Dislike ajouté !'}))
+        Gif.update( {
+            dislikes: gif.dislikes + 1,
+            usersDisliked: addUserIdInList(userId, gif.usersDisliked)
+        }, {where: { id: id }})
+            .then(() => res.status(201).json({ message: 'Like ajouté !'}))
             .catch( error => res.status(400).json({ error }))
     }
 }
@@ -53,13 +77,22 @@ function removeLikeDislike (id, userId, res, gif) {
 
 }
 
+function remUserIdInList (userId, userList) {
+    const res = [];
+    for (const userInd in userList) {
+        if (userId !== userList[userInd]) {
+            res.push(userList[userInd]);
+        }
+    }
+    return res;
+}
+
 function removeDislike (id, userId, res, gif) {
-    if (gif.usersDisliked.find(user => user === userId)) {
-        Gif.updateOne({ id: id }, {
-            $inc: {dislikes:-1},
-            $pull: {usersDisliked: userId},
-            id: id
-        })
+    if (hasUserId(userId,gif.usersDisliked)) {
+        Gif.update( {
+            dislikes: gif.dislikes - 1,
+            usersDisliked: remUserIdInList(userId, gif.usersDisliked)
+        }, {where: { id: id }})
             .then(() => res.status(201).json({ message: 'Dislike enlevé !'}))
             .catch( error => res.status(400).json({ error }))
     }
@@ -67,12 +100,11 @@ function removeDislike (id, userId, res, gif) {
      
     
 function removeLike (id, userId, res, gif) {
-    if (gif.usersLiked.find(user => user === userId)) {
-        Gif.updateOne({ id: id }, {
-            $inc: {likes:-1},
-            $pull: {usersLiked: userId},
-            id: id
-        })
+    if (hasUserId(userId,gif.usersLiked)) {
+        Gif.update( {
+            likes: gif.likes - 1,
+            usersLiked: remUserIdInList(userId, gif.usersLiked)
+        }, {where: { id: id }})
             .then(() => res.status(201).json({ message: 'Like enlevé !'}))
             .catch( error => res.status(400).json({ error }))
     }

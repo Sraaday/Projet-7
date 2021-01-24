@@ -10,7 +10,8 @@
                 <li v-for="item in items" :key="item.id" >
                     <p>{{item.userName}}</p>
                     <h1><a v-on:click="showOneGif(item.id)">{{item.title}}</a></h1>
-                    <p>{{item.likes}} Likes - {{item.dislikes}} Dislikes</p>
+                    <button v-if="admin || item.userId == userId" v-on:click="deleteGif(item.id)">Supprimer</button>
+                    <LikeDislike :gif="item" />
                     <img v-bind:src="item.gifUrl" />
                 </li>
             </ul>
@@ -21,6 +22,7 @@
 import APICall from '../APICall/APICall.vue'
 import DisplayGif from './DisplayGif.vue'
 import UploadGif from './UploadGif.vue'
+import LikeDislike from './LikeDislike.vue'
 
 export default {
     name: 'DisplayAllGifs',
@@ -29,14 +31,17 @@ export default {
     },
     components: {
         DisplayGif,
-        UploadGif
+        UploadGif,
+        LikeDislike
     },
     data: () => {
         return {
             items: [],
             tempItems: [],
             currentGifSelected: -1,
-            timer: null
+            timer: null,
+            userId: 0,
+            admin: false
         }
     },
     
@@ -52,7 +57,9 @@ export default {
             const responseGif = await APICall.methods.get(`gif`);
             responseGif.forEach(async (item) => {
                 const responseUser = await APICall.methods.get(`user/${item.userId}`);
-                const newItem = {title: item.title, gifUrl: item.imageUrl, id: item.id, userName: `${responseUser.firstname} ${responseUser.lastname}`, likes: item.likes, dislikes: item.dislikes};
+                const newItem = { title: item.title, gifUrl: item.imageUrl, id: item.id
+                                , userId: item.userId, userName: `${responseUser.firstname} ${responseUser.lastname}`
+                                , likes: item.likes, dislikes: item.dislikes, likesList : item.usersLiked, dislikesList: item.usersDisliked };
                 this.tempItems.push(newItem);
             });
         },
@@ -61,16 +68,24 @@ export default {
         },
         closeShowOneGif: function () {
             this.currentGifSelected = -1;
+        },
+        deleteGif: async function (gifId) {
+            APICall.methods.delete(`gif/${gifId}`);
         }
     },
     mounted: async function () {
+        this.userId = APICall.methods.getParsedToken().userId;
+        this.admin = APICall.methods.getParsedToken().isAdmin;
         const responseGif = await APICall.methods.get(`gif`);
         responseGif.forEach(async (item) => {
             const responseUser = await APICall.methods.get(`user/${item.userId}`);
-            const newItem = {title: item.title, gifUrl: item.imageUrl, id: item.id, userName: `${responseUser.firstname} ${responseUser.lastname}`, likes: item.likes, dislikes: item.dislikes};
+            const newItem = { title: item.title, gifUrl: item.imageUrl, id: item.id
+                            , userId: item.userId, userName: `${responseUser.firstname} ${responseUser.lastname}`
+                            , likes: item.likes, dislikes: item.dislikes, likesList : item.usersLiked, dislikesList: item.usersDisliked };
             this.items.push(newItem);
             this.tempItems.push(newItem);
         });
+
         this.timer = setInterval(() => {
             this.refreshComments()
         }, 1000);

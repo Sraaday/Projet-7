@@ -35,16 +35,16 @@ exports.modifyComment = (req, res, next) => {
     {
         ...JSON.parse(req.body.comment),
     } : { ...req.body };
-    Comment.updateOne({ id: req.params.id }, { ...commentObject, id: req.params.id })
+    Comment.update({where:{ id: req.params.id} }, { ...commentObject, id: req.params.id })
     .then(() => res.status(200).json({ message: 'Commentaire modifiée !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
 exports.deleteComment = (req, res, next) => {
-    Comment.findOne({ id: req.params.id })
+    Comment.findOne({where:{ id: req.params.id }})
     .then(c => {
         
-        Comment.deleteOne({ id: req.params.id })
+        Comment.destroy({where:{ id: req.params.id }})
         .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
         .catch(error => res.status(400).json({ error }));
    

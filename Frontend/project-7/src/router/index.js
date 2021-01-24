@@ -66,7 +66,19 @@ const routes = [
         next();
       }
     }
-  }
+  },
+  {
+    path: '/profil',
+    name: 'Profil',
+    component: () => import('../views/Profil.vue'),
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('jwt') == null) {
+        next({ name: 'Acceuil' });
+      } else {
+        next();
+      }
+    }
+  },
 ]
 
 const router = new VueRouter({

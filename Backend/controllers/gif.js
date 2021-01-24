@@ -38,7 +38,7 @@ exports.deleteGif = (req, res, next) => {
     .then(gif => {
         const filename = gif.imageUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {
-            Gif.deleteOne({ id: req.params.id })
+            Gif.destroy( {where:{ id: req.params.id }})
             .then(() => res.status(200).json({ message: 'Gif supprimé !'}))
             .catch(error => res.status(400).json({ error }));
         });
