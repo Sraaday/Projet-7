@@ -2,10 +2,10 @@
     <div class="outline">
         <form>
             <h1>Connexion</h1>
-            <p>Entrez votre Email</p>
-            <input type="email" placeholder="" v-model="email"/>
-            <p>Entrez votre mot de passe</p>
-            <input type="password" placeholder="" v-model="password"/>
+            <label for="email">Entrez votre Email</label>
+            <input id="email" type="email" placeholder="" v-model="email"/>
+            <label for="pass">Entrez votre mot de passe</label>
+            <input id="pass" type="password" placeholder="" v-model="password"/>
             <button type="button" v-on:click="sendForm">Connexion</button>
         </form>
     </div>
