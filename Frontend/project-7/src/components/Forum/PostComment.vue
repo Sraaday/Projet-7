@@ -1,8 +1,8 @@
 <template>
     <div class="outline">
         <form>
-            <h1>Entrez votre commentaire</h1>
-            <input type="text" placeholder="" v-model="content"/>
+            <label for="commentaire">Entrez votre commentaire</label>
+            <input id="commentaire" type="text" placeholder="" v-model="content"/>
             <button type="button" v-on:click="sendForm">Envoyer</button>
         </form>
     </div>

@@ -12,7 +12,7 @@
                     <h1><a v-on:click="showOneGif(item.id)">{{item.title}}</a></h1>
                     <button v-if="admin || item.userId == userId" v-on:click="deleteGif(item.id)">Supprimer</button>
                     <LikeDislike :gif="item" />
-                    <img v-bind:src="item.gifUrl" />
+                    <img :alt="item.title" v-bind:src="item.gifUrl" />
                 </li>
             </ul>
         </div>    

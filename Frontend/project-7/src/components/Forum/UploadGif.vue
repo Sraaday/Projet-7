@@ -1,8 +1,10 @@
 <template>
     <div class="outline">
         <form enctype="multipart/form-data">
-            Titre: <input type="text" v-model="title"><br/>
-            Uploadez une image : <input type="file" ref="fileToUpload"><br/>
+            <label for="titre">Titre: </label>
+            <input id="titre" type="text" v-model="title"><br/>
+            <label for="fichier">Uploadez une image :</label>
+            <input id="fichier" type="file" ref="fileToUpload"><br/>
             <button type="button" v-on:click="sendForm">Poster</button>
         </form>
     </div>

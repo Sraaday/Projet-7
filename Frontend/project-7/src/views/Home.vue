@@ -1,10 +1,10 @@
 <template>
     <div>
-      <img id="groupomania" src="../assets/Groupomania.png" />
+      <img alt="Logo Groupomania" id="groupomania" src="../assets/Groupomania.png" />
       <h1>Bienvenue sur Groupomania !</h1>
       <h2>Connectez-vous pour accéder au site</h2>
       <Connexion href="MainPage"/>
-      <h3>Nouveau ? Inscrivez-vous en cliquant <router-link to="/register">ici</router-link></h3>
+      <h2>Nouveau ? Inscrivez-vous en cliquant <router-link to="/register">ici</router-link></h2>
     </div>
 </template>
 

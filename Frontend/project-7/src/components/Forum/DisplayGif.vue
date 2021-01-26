@@ -3,7 +3,7 @@
         <p>{{userName}}</p>
         <h1>{{title}}</h1>
         <LikeDislike :gif="objectToLikes" v-if="show" />
-        <img :src="gifUrl" />
+        <img :alt="title" :src="gifUrl" />
         <h1>Commentaires</h1>
         <GifComments :gifId="id"/>
         <PostComment :gifId="id"/>
