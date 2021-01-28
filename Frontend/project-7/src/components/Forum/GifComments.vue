@@ -2,9 +2,10 @@
     <div class="outline">
         <ul>
             <li v-for="item in items" :key="item.id" >
-                <p>{{item.userName}}</p>
-                <button v-if="admin || item.userId == userId" v-on:click="deleteCom(item.id)">Supprimer</button>
+                <p>{{item.userName}} {{item.createdAt | formatDate}}</p>
                 <p>{{item.content}}</p>
+                <button v-if="admin || item.userId == userId" v-on:click="deleteCom(item.id)">Supprimer</button>
+                
             </li>
         </ul>
     </div>
@@ -38,12 +39,20 @@ export default {
             const responseComments = await APICall.methods.get(`comment/multimedia/${this.gifId}`);
             responseComments.forEach(async (item) => {
                 const responseUser = await APICall.methods.get(`user/${item.userId}`);
-                const newItem = {content: item.content, userName: `${responseUser.firstname} ${responseUser.lastname}`, userId: item.userId, id: item.id};
+                const newItem = {content: item.content, userName: `${responseUser.firstname} ${responseUser.lastname}`, userId: item.userId, id: item.id, createdAt: item.createdAt};
                 this.tempItems.push(newItem);
             });
         },
         deleteCom: async function (comId) {
             APICall.methods.delete(`comment/${comId}`);
+        }
+    },
+    filters: {
+        formatDate: function (date) {
+            const splitDateTime = date.split('T');
+            const splitDate = splitDateTime[0].split('-');
+            const splitTime = splitDateTime[1].split(':');
+            return `le ${splitDate[2]}/${splitDate[1]}/${splitDate[0]} à ${splitTime[0]}h${splitTime[1]}`
         }
     },
     mounted: async function () {
@@ -52,7 +61,7 @@ export default {
         const responseComments = await APICall.methods.get(`comment/multimedia/${this.gifId}`);
         responseComments.forEach(async (item) => {
             const responseUser = await APICall.methods.get(`user/${item.userId}`);
-            const newItem = {content: item.content, userName: `${responseUser.firstname} ${responseUser.lastname}`, userId: item.userId, id: item.id};
+            const newItem = {content: item.content, userName: `${responseUser.firstname} ${responseUser.lastname}`, userId: item.userId, id: item.id, createdAt: item.createdAt};
             this.items.push(newItem);
             this.tempItems.push(newItem);
         });
