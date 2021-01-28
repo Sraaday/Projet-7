@@ -79,6 +79,30 @@ const routes = [
       }
     }
   },
+  {
+    path: '/listeUtilisateur',
+    name: 'ListUtilisateur',
+    component: () => import('../views/ListeUtilisateurs.vue'),
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('jwt') == null) {
+        next({ name: 'Acceuil' });
+      } else {
+        const token = sessionStorage.getItem('jwt');
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const tokenParsed = JSON.parse(jsonPayload);
+        if (!tokenParsed.isAdmin) {
+          next({ name: 'MainPage' });
+        } else {
+          next();
+        }
+      }
+    }
+  }
 ]
 
 const router = new VueRouter({

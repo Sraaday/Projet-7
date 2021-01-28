@@ -6,6 +6,7 @@
         <h2> Echangez avec vos collègues dès maintenant ! </h2>
         <h3> <router-link to="/ForumTexte">Accès au forum textuel !</router-link> </h3>
         <h3> <router-link to="/ForumGif">Accès au forum Multimédia !</router-link> </h3>
+        <h3> <router-link to="/listeUtilisateur" v-show="admin">Accès administrateur</router-link> </h3>
 
 
         <Deconnexion/>
@@ -20,12 +21,21 @@
 
 <script>
 import Deconnexion from '../components/Connexion/Deconnexion.vue';
+import APICall from '../components/APICall/APICall.vue';
 
 
 export default {
   name: 'Main',
   components : {
     Deconnexion
+  },
+  data: () => {
+    return {
+      admin: false
+    }
+  },
+  mounted: function () {
+      this.admin = APICall.methods.getParsedToken().isAdmin;
   }
 }
 </script>
