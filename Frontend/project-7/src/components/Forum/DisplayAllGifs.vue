@@ -8,7 +8,7 @@
             <UploadGif />
             <ul>
                 <li v-for="item in items" :key="item.id" >
-                    <p>{{item.userName}}</p>
+                    <p>{{item.userName}} créé {{item.createdAt | formatDate}}</p>
                     <h1><a v-on:click="showOneGif(item.id)">{{item.title}}</a></h1>
                     <button v-if="admin || item.userId == userId" v-on:click="deleteGif(item.id)">Supprimer</button>
                     <LikeDislike :gif="item" />
@@ -59,8 +59,9 @@ export default {
                 const responseUser = await APICall.methods.get(`user/${item.userId}`);
                 const newItem = { title: item.title, gifUrl: item.imageUrl, id: item.id
                                 , userId: item.userId, userName: `${responseUser.firstname} ${responseUser.lastname}`
-                                , likes: item.likes, dislikes: item.dislikes, likesList : item.usersLiked, dislikesList: item.usersDisliked };
-                this.tempItems.push(newItem);
+                                , likes: item.likes, dislikes: item.dislikes, likesList : item.usersLiked, dislikesList: item.usersDisliked 
+                                , createdAt: item.createdAt};
+                this.tempItems.unshift(newItem);
             });
         },
         showOneGif: function (gifId){
@@ -72,6 +73,15 @@ export default {
         deleteGif: async function (gifId) {
             APICall.methods.delete(`gif/${gifId}`);
         }
+        
+    },
+    filters: {
+        formatDate: function (date) {
+            const splitDateTime = date.split('T');
+            const splitDate = splitDateTime[0].split('-');
+            const splitTime = splitDateTime[1].split(':');
+            return `le ${splitDate[2]}/${splitDate[1]}/${splitDate[0]} à ${splitTime[0]}h${splitTime[1]}`
+        }
     },
     mounted: async function () {
         this.userId = APICall.methods.getParsedToken().userId;
@@ -81,9 +91,10 @@ export default {
             const responseUser = await APICall.methods.get(`user/${item.userId}`);
             const newItem = { title: item.title, gifUrl: item.imageUrl, id: item.id
                             , userId: item.userId, userName: `${responseUser.firstname} ${responseUser.lastname}`
-                            , likes: item.likes, dislikes: item.dislikes, likesList : item.usersLiked, dislikesList: item.usersDisliked };
-            this.items.push(newItem);
-            this.tempItems.push(newItem);
+                            , likes: item.likes, dislikes: item.dislikes, likesList : item.usersLiked, dislikesList: item.usersDisliked 
+                            , createdAt: item.createdAt};
+            this.items.unshift(newItem);
+            this.tempItems.unshift(newItem);
         });
 
         this.timer = setInterval(() => {
