@@ -7,7 +7,7 @@
         <div v-show="currentGifSelected == -1">
             <UploadGif />
             <ul>
-                <li v-for="item in items" :key="item.id" >
+                <li v-for="item in pageOfItems" :key="item.id" >
                     <p>{{item.userName}} créé {{item.createdAt | formatDate}}</p>
                     <h1><a v-on:click="showOneGif(item.id)">{{item.title}}</a></h1>
                     <button v-if="admin || item.userId == userId" v-on:click="deleteGif(item.id)">Supprimer</button>
@@ -15,14 +15,22 @@
                     <img :alt="item.title" v-bind:src="item.gifUrl" />
                 </li>
             </ul>
+            <jw-pagination :items="items" pageSize="5" @changePage="onChangePage"></jw-pagination>
+            
         </div>    
     </div>
 </template>
+
+
+
 <script>
 import APICall from '../APICall/APICall.vue'
 import DisplayGif from './DisplayGif.vue'
 import UploadGif from './UploadGif.vue'
 import LikeDislike from './LikeDislike.vue'
+import JwPagination from 'jw-vue-pagination';
+
+
 
 export default {
     name: 'DisplayAllGifs',
@@ -32,11 +40,13 @@ export default {
     components: {
         DisplayGif,
         UploadGif,
-        LikeDislike
+        LikeDislike,
+        JwPagination
     },
     data: () => {
         return {
             items: [],
+            pageOfItems: [],
             tempItems: [],
             currentGifSelected: -1,
             timer: null,
@@ -72,8 +82,10 @@ export default {
         },
         deleteGif: async function (gifId) {
             APICall.methods.delete(`gif/${gifId}`);
+        },
+        onChangePage(pageOfItems) {
+           this.pageOfItems = pageOfItems;
         }
-        
     },
     filters: {
         formatDate: function (date) {
