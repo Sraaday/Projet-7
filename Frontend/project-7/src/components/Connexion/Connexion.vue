@@ -43,4 +43,17 @@ export default {
 </script>
 <style scoped>
 
+
+input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+    padding: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 </style>

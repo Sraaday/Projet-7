@@ -1,11 +1,11 @@
 <template>
-    <div class="outline">
+    <div class="outline" aria-label="Inscription">
         <form>
             <h1>Inscrivez-vous</h1>
             <label for="email">Entrez votre Email</label>
             <input id="email" type="email" placeholder="ex: email@email.com" v-model="email"/>
-            <label for="prénom">Votre prénom</label>
-            <input id="prénom" type="text" placeholder="ex: Jean" v-model="firstName"/>
+            <label for="prenom">Votre prénom</label>
+            <input id="prenom" type="text" placeholder="ex: Jean" v-model="firstName"/>
             <label for="famille">Votre nom de famille</label>
             <input id="famille" type="text" placeholder="ex: Dupont" v-model="lastName"/>
             <label for="mdp">Choisissez un mot de passe</label>
@@ -63,10 +63,9 @@ export default {
 <style scoped>
     .outline {
         outline: solid 1px lightskyblue;
-        position: relative;
         outline-offset: 1vh;
-        left: 20vh;
-        margin-right: 40vh;
+        display: flex;
+        margin: auto;
     }
     button {
         background-color: rgb(88, 60, 9);
@@ -79,4 +78,43 @@ export default {
         font-size: 16px;
         margin-top: 1vh;
     }
+
+    input {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        justify-items: center;
+        justify-self: center;
+        padding: 7px;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+}
+
+    form {
+        display: flex;
+        margin: auto;
+        flex-direction: column;
+        vertical-align: auto;
+    }
+
+/* On screens that are 992px or less */
+@media screen and (max-width: 992px) {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #nav {
+    padding: 10px;
+  }
+}
+
+/* On screens that are 600px or less */
+@media screen and (max-width: 600px) {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+}
 </style>

@@ -29,7 +29,7 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 10px;
 }
 
 #nav a {
@@ -41,5 +41,24 @@ export default {
   color: #42b983;
 }
 
+/* On screens that are 992px or less */
+@media screen and (max-width: 992px) {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #nav {
+    padding: 10px;
+  }
+}
+
+/* On screens that are 600px or less */
+@media screen and (max-width: 600px) {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+}
 
 </style>
