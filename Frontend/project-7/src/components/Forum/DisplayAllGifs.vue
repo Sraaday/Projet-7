@@ -120,5 +120,57 @@ export default {
 </script>
 
 <style scoped>
+img {
+    width: 900px;
+    margin: auto;
+}
 
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    margin: auto;
+}
+
+@media screen and (max-width: 992px) {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #nav {
+    padding: 10px;
+  }
+
+  img {
+    width: 500px;
+}
+}
+
+/* On screens that are 600px or less */
+@media screen and (max-width: 600px) {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  img {
+    width: 300px;
+}
+
+.pagination {
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+    align-self: center;
+}
+
+p{
+    font-size: 15px;
+}
+}
 </style>

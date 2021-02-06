@@ -37,5 +37,23 @@ export default {
 </script>
 
 <style scoped>
+form {
+    display: flex;
+    flex-direction: column;
+}
 
+input {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    padding-top: 5px ;
+    padding-bottom: 5px ;
+
+}
+
+button {
+    max-width: 33%;
+    display: flex;
+    align-self: center;
+}
 </style>
