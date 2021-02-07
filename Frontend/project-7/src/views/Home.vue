@@ -1,6 +1,6 @@
 <template>
     <div>
-      <img alt="Logo Groupomania" id="groupomania" src="../assets/Groupomania.png" />
+      <img alt="Présentation Groupomania" id="groupomania" src="../assets/Groupomania.png" />
       <h1>Bienvenue sur Groupomania !</h1>
       <h2>Connectez-vous pour accéder au site</h2>
       <Connexion href="MainPage"/>

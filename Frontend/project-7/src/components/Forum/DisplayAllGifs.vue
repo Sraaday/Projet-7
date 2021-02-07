@@ -134,6 +134,20 @@ li {
     margin: auto;
 }
 
+li {
+    border: #ba4e38;
+    border-style: solid ;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #fd8671;
+    width: 80%;
+  }
+
+  ul {
+  list-style-type: none;
+}
+
 @media screen and (max-width: 992px) {
   div {
     display: flex;
@@ -147,8 +161,19 @@ li {
   img {
     width: 500px;
 }
+
+    li {
+        width: 95%;
+    }
 }
 
+/* On screens that are 600px or less */
+@media screen and (max-width: 992px) {
+    .pagination {
+        display: flex;
+        align-self: center;
+    }
+}
 /* On screens that are 600px or less */
 @media screen and (max-width: 600px) {
   div {
@@ -157,7 +182,7 @@ li {
   }
 
   img {
-    width: 300px;
+    width: 270px;
 }
 
 .pagination {

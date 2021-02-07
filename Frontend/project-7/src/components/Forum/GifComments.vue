@@ -77,5 +77,45 @@ export default {
 </script>
 
 <style scoped>
+ul {
+    margin: 0px;
+    padding: 0px;
+}
 
+li {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    border: #ba4e38;
+    border-style: solid ;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: #fd8671;
+
+}
+
+button {
+    width: 33%;
+    align-self: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media screen and (min-width: 992px) {
+  li {
+    width: 33%;
+    align-self: center;
+    margin: auto;
+    margin-top: 10px ;
+    margin-bottom: 10px ;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+  p {
+   font-size: 15px;
+  }
+
+}
 </style>
