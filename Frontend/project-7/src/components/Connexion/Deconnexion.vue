@@ -1,6 +1,9 @@
 <template>
     <div class="outline">
-        <button type="button" v-on:click="sendForm">Déconnexion</button>
+        <ul class="nav navbar-nav navbar-right">
+      <li><a v-on:click="sendForm"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a> </li>
+    </ul>
+        
     </div>
 </template>
 <script>
