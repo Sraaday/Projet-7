@@ -24,7 +24,12 @@
 </template>
 
 <style scoped>
-
+@media screen and (max-width: 600px) {
+  .navbar-header{
+    display: flex;
+    justify-content: center;
+  }
+}
 </style>
 
 
@@ -42,13 +47,16 @@ export default {
   data: () => {
         return {
             id: 0,
-            show: false
+            show: false,
+            admin: false
         }
+        
     },
 
   mounted: function () {
     this.id = APICall.methods.getParsedToken().userId;
     this.show = true;
+    this.admin = APICall.methods.getParsedToken().isAdmin;
   }
 
 }

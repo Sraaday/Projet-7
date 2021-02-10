@@ -1,9 +1,11 @@
 <template>
     <div class="outline">
-        <p>{{userName}} créé {{createdAt | formatDate}}</p>
         <h1>{{title}}</h1>
-        <LikeDislike :gif="objectToLikes" v-if="show" />
+        <p> crée par {{userName}} {{createdAt | formatDate}}</p>
+        
+        
         <img :alt="title" :src="gifUrl" />
+        <LikeDislike :gif="objectToLikes" v-if="show" />
         <h1>Commentaires</h1>
         <GifComments :gifId="id"/>
         <PostComment :gifId="id"/>
@@ -64,6 +66,11 @@ export default {
 </script>
 
 <style scoped>
+
+img {
+    padding-bottom: 10px;
+}
+
 @media screen and (max-width: 600px) {
   p {
    font-size: 15px;

@@ -8,11 +8,13 @@
             <UploadGif />
             <ul>
                 <li v-for="item in pageOfItems" :key="item.id" >
-                    <p>{{item.userName}} créé {{item.createdAt | formatDate}}</p>
+                    
                     <h1><a v-on:click="showOneGif(item.id)">{{item.title}}</a></h1>
+                    <p> créé par {{item.userName}}  {{item.createdAt | formatDate}}</p>
                     <button v-if="admin || item.userId == userId" v-on:click="deleteGif(item.id)">Supprimer</button>
-                    <LikeDislike :gif="item" />
+                    
                     <img :alt="item.title" v-bind:src="item.gifUrl" />
+                    <LikeDislike :gif="item" />
                 </li>
             </ul>
             <jw-pagination :items="items" pageSize="5" @changePage="onChangePage"></jw-pagination>
@@ -120,10 +122,21 @@ export default {
 </script>
 
 <style scoped>
+
+
 img {
     width: 900px;
     margin: auto;
 }
+
+button {
+   display: flex;
+   flex-direction: column;
+   margin: auto;
+   margin-bottom: 10px;
+   margin-top: 10px;
+}
+
 
 ul {
     margin: 0px;
@@ -135,12 +148,12 @@ li {
 }
 
 li {
-    border: #ba4e38;
+    border: black;
     border-style: solid ;
     border-radius: 5px;
     margin-top: 15px;
     margin-bottom: 15px;
-    background-color: #fd8671;
+    background-color: white;
     width: 80%;
   }
 

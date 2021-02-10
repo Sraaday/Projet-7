@@ -19,6 +19,9 @@ export default {
 }
 </script>
 <style scoped>
+img {
+  margin-top: -10px;
+}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -24,12 +24,30 @@
 
 <script>
 import Deconnexion from '../components/Connexion/Deconnexion.vue';
+import APICall from '../components/APICall/APICall.vue';
 
 export default {
   name: 'ForumTexte',
   components: {
     Deconnexion
+  },
+  data: () => {
+    return {
+      admin: false
+    }
+  },
+  mounted: function () {
+      this.admin = APICall.methods.getParsedToken().isAdmin;
   }
 
 }
 </script>
+
+<style scoped>
+@media screen and (max-width: 600px) {
+  .navbar-header{
+    display: flex;
+    justify-content: center;
+  }
+}
+</style>

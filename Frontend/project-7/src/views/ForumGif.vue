@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="background">
         <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -29,6 +29,7 @@
 <script>
 import DisplayAllGifs from '../components/Forum/DisplayAllGifs.vue';
 import Deconnexion from '../components/Connexion/Deconnexion.vue';
+import APICall from '../components/APICall/APICall.vue';
 
 
 
@@ -37,22 +38,43 @@ export default {
   components: {
     Deconnexion,
     DisplayAllGifs
+  },
+  data: () => {
+    return {
+      admin: false
+    }
+  },
+  mounted: function () {
+      this.admin = APICall.methods.getParsedToken().isAdmin;
   }
+  
 }
 </script>
 
 <style scoped>
+.background{
+    background-color: rgba(255, 0, 0, 0.281) ;
+
+}
+
 .logo {
     width: 150px;
     display: flex;
     align-self: center;
-    border: #ba4e38;
+    border: red;
     border-style: solid ;
     border-radius: 5px;
     margin: auto;
     margin-bottom: 10px;
     margin-top: 10px;
   }
+
+  @media screen and (max-width: 600px) {
+  .navbar-header{
+    display: flex;
+    justify-content: center;
+  }
+}
 
   
 </style>

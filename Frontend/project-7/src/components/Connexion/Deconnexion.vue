@@ -1,7 +1,7 @@
 <template>
-    <div class="outline">
+    <div class="container-fluid">
         <ul class="nav navbar-nav navbar-right">
-      <li><a v-on:click="sendForm"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a> </li>
+      <li><a class="logout" v-on:click="sendForm"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a> </li>
     </ul>
         
     </div>

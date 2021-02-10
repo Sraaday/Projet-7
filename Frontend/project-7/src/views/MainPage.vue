@@ -21,9 +21,9 @@
         <img alt="Logo Groupamania" class="logo" src="../assets/icon-above-font.png"/>
         <h1>Bienvenue sur notre réseau social !</h1>
           <h2> Echangez avec vos collègues dès maintenant ! </h2>
-            <h3> <router-link to="/ForumTexte">Accès au forum textuel !</router-link> </h3>
-            <h3> <router-link to="/ForumGif">Accès au forum Multimédia !</router-link> </h3>
-            <h3> <router-link to="/listeUtilisateur" v-show="admin">Accès administrateur</router-link> </h3>
+            <h3> <router-link class="link" to="/ForumTexte">Accès au forum textuel !</router-link> </h3>
+            <h3> <router-link class="link" to="/ForumGif">Accès au forum Multimédia !</router-link> </h3>
+            <h3> <router-link class="link" to="/listeUtilisateur" v-show="admin">Accès administrateur</router-link> </h3>
 
 
 
@@ -57,9 +57,7 @@ export default {
 </script>
 
 <style scoped>
-.menu {
-  padding: 10px 10px 10px 10px;
-}
+
 
 
 .logo {
@@ -75,18 +73,20 @@ export default {
   }
 
 @media screen and (max-width: 992px) {
-  div {
-    display: flex;
-    flex-direction: column;
+
+
+
+
+  a{
+    font-size: 14px;
   }
 
-  #nav {
-    padding: 10px;
+ 
+
+  .link{
+    font-size: 20px;
   }
 
-  a {
-    font-size: 25px;
-  }
 
   .logo {
     width: 450px;
@@ -114,9 +114,15 @@ export default {
     border-radius: 5px;
   }
 
-  a {
-    font-size:20px;
+  .container-fluid{
+    display: flex;
+    flex-direction: column;
   }
+
+  a{
+    font-size: 14px;
+  }
+  
 
   h2 {
     font-size: 23px;
