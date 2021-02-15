@@ -17,7 +17,7 @@
                     <LikeDislike :gif="item" />
                 </li>
             </ul>
-            <jw-pagination :items="items" pageSize="5" @changePage="onChangePage"></jw-pagination>
+            <jw-pagination :items="items" :pageSize=5 @changePage="onChangePage"></jw-pagination>
             
         </div>    
     </div>

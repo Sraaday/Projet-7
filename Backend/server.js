@@ -12,6 +12,8 @@ const normalizePort = val => {
   }
   return false;
 };
+
+// The port can be change here by replacing 'XXXX' with another value
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
