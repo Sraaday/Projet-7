@@ -46,6 +46,8 @@ This project is using Node, Express 4.16.1 and Sequelize 6.3.5 .
 
 2. Then use `npm install`
 
+3. Finally in /Backend create a new folder named "images" , which will allow multer to upload the incoming images from the application
+
 ## Npm scripts
 
 - The backend server can be started with the command "nodemon server.js" by default, if you are using node.js only go to : Backend/package.json and in the section scripts replace "nodemon server.js" by "node server.js".
