@@ -1,16 +1,14 @@
 const { raw } = require('body-parser');
 const { Comment } = require("../sequelize").models;
-const jwt = require('jsonwebtoken');
+
 
 
 exports.createComment = (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
+    
     
     Comment.create({
         content: req.body.content,
-        userId: userId,
+        userId: req.userId,
         gifId: req.body.gifId
 
     })
@@ -35,19 +33,23 @@ exports.modifyComment = (req, res, next) => {
     {
         ...JSON.parse(req.body.comment),
     } : { ...req.body };
-    Comment.update({where:{ id: req.params.id} }, { ...commentObject, id: req.params.id })
+    Comment.update({where:{ id: req.params.id, userId: req.userId} }, { ...commentObject, id: req.params.id })
     .then(() => res.status(200).json({ message: 'Commentaire modifiée !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
 exports.deleteComment = (req, res, next) => {
-    Comment.findOne({where:{ id: req.params.id }})
+    Comment.findOne({where:{ id: req.params.id  }})
     .then(c => {
+        if (req.isAdmin || req.userId == c.userId) {
+            Comment.destroy({where:{ id: req.params.id }}) 
         
-        Comment.destroy({where:{ id: req.params.id }})
-        .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
-        .catch(error => res.status(400).json({ error }));
-   
+            .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
+            .catch(error => res.status(400).json({ error }));
+        }
+        else {
+            return res.status(401).json ({error: 'pas autorisé'})
+        }
     })
     .catch(error => res.status(500).json({ error }));
 };  
