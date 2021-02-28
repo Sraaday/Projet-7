@@ -7,12 +7,18 @@ module.exports = (req, res, next) => {
     // renvoi le payload si le token et sa signature sont valides, remonte l'erreur sinon
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     // On extrait les informations du token vérifié
-    req.userId = decodedToken.userId;
-    req.isAdmin = decodedToken.isAdmin
+    const userId = decodedToken.userId;
+    const isAdmin = decodedToken.isAdmin
+
 
     
-    
-    next();
+    if (req.body.userId && req.body.userId !== userId ) {
+      throw 'Invalid user ID';
+    } else {
+      req.userId = userId;
+      req.isAdmin = isAdmin
+      next();
+    }
     
   } catch {
     res.status(401).json({
