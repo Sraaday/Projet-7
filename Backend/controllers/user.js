@@ -35,6 +35,7 @@ exports.login = (req, res, next) => {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
                     res.status(200).json({
+                        // Attribution d'un token d'authentification généré lors de la connexion à un compte existant
                         token: jwt.sign(
                             { userId: user.id, isAdmin: user.isAdmin },
                             'RANDOM_TOKEN_SECRET',
@@ -58,13 +59,14 @@ exports.getOneUser = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
     User.findOne({where:{ id: req.params.id }})
     .then(user => {
+        // Vérifie si l'action est autorisé via les données extraites du token 
         if (req.isAdmin || req.userId == user.id) {        
             User.destroy({where:{ id: req.params.id }})
             .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
             .catch(error => res.status(400).json({ error }));
     }
     else {
-        return res.status(401).json ({error: 'pas autorisé'})
+        return res.status(401).json ({error: 'non autorisé'})
     }
     })
     .catch(error => res.status(500).json({ error }));
